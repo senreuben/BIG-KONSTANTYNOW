@@ -95,9 +95,33 @@ h1 { font-size: clamp(38px, 6vw, 60px); margin: 12px 0; letter-spacing: -2px; }
   right: -35px;
   pointer-events: none;
 }
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px #c51f3515;
+
+.card {
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    background-color 0.28s ease;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-6px);
+  background-color: #f8e9ec;
+  box-shadow: 0 16px 30px rgba(153, 23, 42, 0.13);
+}
+
+.card:hover .arrow,
+.card:focus-visible .arrow {
+  background-color: var(--red);
+  color: #fff;
+  transform: rotate(45deg);
+}
+
+.arrow {
+  transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
 }
 .card-top, .card h2, .card p, .card-bottom { position: relative; }
 .card-top {
