@@ -137,7 +137,7 @@ footer { padding:25px; border-top:1px solid var(--line); text-align:center; colo
 </main>
 <footer>BIG KONSTANTYNÓW · PORTAL NAJEMCÓW · WERSJA TESTOWA</footer>
 <script>
-const tenantNames = Array.from({length:23}, (_,i) => `Najemca ${String(i+1).padStart(2,'0')}`);
+const tenantNames = ['Brak', ...Array.from({length:23}, (_,i) => `Najemca ${String(i+1).padStart(2,'0')}`)];
 const media = [
   {id:'CTL 1', type:'CTL', label:'Citylight 1'}, {id:'CTL 2', type:'CTL', label:'Citylight 2'},
   {id:'CTL 3', type:'CTL', label:'Citylight 3'}, {id:'CTL 4', type:'CTL', label:'Citylight 4'},
@@ -162,8 +162,8 @@ function showView(name) {
   if(name==='calendar') renderCalendar();
 }
 function assignedTenant(periodIndex, mediaIndex) {
-  // Offset each medium to spread each tenant across the available advertising positions.
-  return tenantNames[(periodIndex + mediaIndex*3) % tenantNames.length];
+  // Domyślnie każdy nośnik pozostaje bez przypisanego najemcy.
+  return 'Brak';
 }
 function renderCalendar() {
   const list=document.getElementById('periodList');
@@ -179,7 +179,9 @@ function renderCalendar() {
       .filter(s=>!query||s.tenant.toLocaleLowerCase('pl-PL').includes(query)||s.m.label.toLocaleLowerCase('pl-PL').includes(query));
     if(!slots.length) return;
     const periodLabel=`${fmtDate(period.start)} – ${fmtDate(period.end)}`;
-    html.push(`<article class="period-card"><div class="period-head"><h3>Okres ${period.index+1}</h3><span>${periodLabel} · 14 dni${period.end<new Date(period.start.getTime()+13*86400000)?' (końcówka harmonogramu)':''}</span></div><div class="slot-grid">${slots.map(({m,mi,tenant})=>`<div class="slot"><span class="slot-code ${m.type==='WC B1'?'wc':''}">${m.id}</span><div class="slot-details"><strong>${m.label}</strong><div class="reservation-row"><small>Rezerwacja:</small><select class="tenant-edit" aria-label="Rezerwacja dla ${m.id}, okres ${period.index+1}" onchange="saveTenant(${period.index},'${m.id}',this.value)">${tenantNames.map(name=>`<option value="${escapeHtml(name)}" ${name===tenant?'selected':''}>${escapeHtml(name)}</option>`).join('')}</select></div></div></div>`).join('')}</div></article>`);
+    const duration=Math.round((period.end-period.start)/86400000)+1;
+    const durationLabel=`${duration} ${duration===1?'dzień':duration%10>=2&&duration%10<=4&&(duration%100<12||duration%100>14)?'dni':'dni'}`;
+    html.push(`<article class="period-card"><div class="period-head"><h3>${periodLabel} · ${durationLabel}</h3></div><div class="slot-grid">${slots.map(({m,mi,tenant})=>`<div class="slot"><span class="slot-code ${m.type==='WC B1'?'wc':''}">${m.id}</span><div class="slot-details"><strong>${m.label}</strong><div class="reservation-row"><small>Rezerwacja:</small><select class="tenant-edit" aria-label="Rezerwacja dla ${m.id}, ${periodLabel}" onchange="saveTenant(${period.index},'${m.id}',this.value)">${tenantNames.map(name=>`<option value="${escapeHtml(name)}" ${name===tenant?'selected':''}>${escapeHtml(name)}</option>`).join('')}</select></div></div></div>`).join('')}</div></article>`);
   });
   list.innerHTML=html.length?html.join(''):'<div class="empty">Brak pozycji dla wybranych filtrów.</div>';
 }
