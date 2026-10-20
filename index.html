@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIG Konstantynów | Center Portal</title>
+<style>
+:root {
+  --red: #c51f35;
+  --dark-red: #99172a;
+  --ink: #202020;
+  --muted: #777;
+  --line: #e8e5e5;
+  --soft: #faf5f6;
+  --white: #fff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+header {
+  min-height: 82px;
+  padding: 18px 5%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid var(--line);
+}
+.logo {
+  width: 42px;
+  height: 42px;
+  background: var(--red);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+.brand { font-size: 11px; color: var(--red); font-weight: bold; }
+.brand-name { font-size: 13px; letter-spacing: 3px; font-weight: bold; }
+main { max-width: 1120px; margin: 65px auto; padding: 0 24px; }
+.eyebrow {
+  color: var(--red);
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+h1 { font-size: clamp(38px, 6vw, 60px); margin: 12px 0; letter-spacing: -2px; }
+.intro { color: var(--muted); line-height: 1.7; max-width: 600px; }
+.topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+.status { color: #28784b; font-size: 12px; font-weight: bold; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 40px;
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  min-height: 270px;
+  padding: 28px;
+  border: 1.5px solid var(--red);
+  border-radius: 25px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  color: inherit;
+  font: inherit;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--soft);
+  top: -65px;
+  right: -35px;
+  pointer-events: none;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px #c51f3515;
+}
+.card-top, .card h2, .card p, .card-bottom { position: relative; }
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.number { color: var(--red); font-weight: bold; font-size: 12px; letter-spacing: 2px; }
+.live {
+  background: #f5e3e6;
+  color: var(--dark-red);
+  border-radius: 20px;
+  padding: 7px 11px;
+  font-size: 10px;
+  font-weight: bold;
+}
+.card h2 { color: #ae2438; font-size: 25px; margin: 35px 0 8px; }
+.card p { color: #6d3038; font-size: 13px; line-height: 1.6; margin: 0; }
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 28px;
+}
+.open { color: var(--red); font-size: 12px; font-weight: bold; letter-spacing: 2px; }
+.arrow {
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+}
+footer {
+  padding: 25px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+}
+.view { display: none; }
+.view.active { display: block; }
+.back {
+  background: white;
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 7px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 22px 0;
+}
+.panel h3 { margin-top: 0; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 13px 10px; border-bottom: 1px solid var(--line); font-size: 13px; }
+th { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+.tag { background: #f5e3e6; color: var(--dark-red); padding: 5px 8px; border-radius: 5px; font-size: 11px; }
+.demo-note { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.search { width: 100%; max-width: 400px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; }
+.task { display: flex; gap: 12px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.task input { accent-color: var(--red); margin-top: 4px; }
+.action {
+  background: var(--red); color: white; border: 0; padding: 11px 16px;
+  border-radius: 7px; cursor: pointer; font-weight: bold;
+}
+.action:hover { background: var(--dark-red); }
+@media (max-width: 800px) {
+  main { margin: 38px auto; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .card { min-height: 245px; padding: 20px; }
+  .card h2 { font-size: 21px; }
+}
+@media (max-width: 520px) {
+  header { padding: 14px 18px; gap: 10px; }
+  .brand-name { letter-spacing: 1px; font-size: 11px; }
+  main { padding: 0 18px; }
+  .cards { grid-template-columns: 1fr; }
+  .card { min-height: 220px; }
+  h1 { letter-spacing: -1px; }
+  .panel { padding: 14px; overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">BIG</div>
+  <span class="brand">POLAND</span>
+  <span class="brand-name">BIG KONSTANTYNÓW · PORTAL</span>
+</header>
+
+<main>
+  <section id="home" class="view active">
+    <div class="topline">
+      <div>
+        <div class="eyebrow">Center management</div>
+        <h1>Portals</h1>
+        <p class="intro">Welcome to BIG Konstantynów. Your central place for tenant contacts, center opening, marketing and reports.</p>
+      </div>
+      <span class="status">● PORTAL PREVIEW</span>
+    </div>
+
+    <div class="cards">
+      <button class="card" onclick="showView('tenants')">
+        <div class="card-top"><span class="number">01</span><span class="live">● DIRECTORY</span></div>
+        <h2>Tenant Contacts</h2>
+        <p>Contact directory and tenant information.</p>
+        <div class="card-bottom"><span class="open">OPEN</span><span class="arrow">→</span></div>
+      </button>
+      <button class="card" onclick="showView('opening')">
+        <div class="card-top"><span class="number">02</span><span class="live">● PROJECT</span></div>
+        <h2>Center Opening</h2>
+        <p>Opening tasks, preparation and progress.</p>
+        <div class="card-bottom"><span class="open">OPEN</span><span class="arrow">→</span></div>
+      </button>
+      <button class="card" onclick="showView('marketing')">
+        <div class="card-top"><span class="number">03</span><span class="live">● CAMPAIGNS</span></div>
+        <h2>Marketing</h2>
+        <p>Promotions, events and campaign planning.</p>
+        <div class="card-bottom"><span class="open">OPEN</span><span class="arrow">→</span></div>
+      </button>
+      <button class="card" onclick="showView('reports')">
+        <div class="card-top"><span class="number">04</span><span class="live">● OVERVIEW</span></div>
+        <h2>Reports</h2>
+        <p>Operational updates and management reports.</p>
+        <div class="card-bottom"><span class="open">OPEN</span><span class="arrow">→</span></div>
+      </button>
+    </div>
+    <p class="demo-note" style="margin-top:28px">Prototype version · Sample information only · No login or database connected</p>
+  </section>
+
+  <section id="tenants" class="view">
+    <button class="back" onclick="showView('home')">← Back to portals</button>
+    <div class="eyebrow">Directory / 01</div>
+    <h1>Tenant Contacts</h1>
+    <p class="intro">Search the demonstration tenant directory below.</p>
+    <div class="panel">
+      <input id="tenantSearch" class="search" placeholder="Search tenant or category..." oninput="filterTenants()">
+      <table>
+        <thead><tr><th>Tenant</th><th>Category</th><th>Status</th></tr></thead>
+        <tbody id="tenantRows">
+          <tr><td>Sample Fashion Store</td><td>Fashion</td><td><span class="tag">Example</span></td></tr>
+          <tr><td>Sample Grocery</td><td>Food</td><td><span class="tag">Example</span></td></tr>
+          <tr><td>Sample Café</td><td>Food & Drink</td><td><span class="tag">Example</span></td></tr>
+          <tr><td>Sample Services</td><td>Services</td><td><span class="tag">Example</span></td></tr>
+        </tbody>
+      </table>
+      <p class="demo-note">These are fictional entries. No real contact information has been added.</p>
+    </div>
+  </section>
+
+  <section id="opening" class="view">
+    <button class="back" onclick="showView('home')">← Back to portals</button>
+    <div class="eyebrow">Project / 02</div>
+    <h1>Center Opening</h1>
+    <p class="intro">A sample checklist for preparing a center opening.</p>
+    <div class="panel">
+      <h3>Opening checklist</h3>
+      <div class="task"><input type="checkbox"><span>Confirm tenant documentation</span></div>
+      <div class="task"><input type="checkbox"><span>Verify signage and branding</span></div>
+      <div class="task"><input type="checkbox"><span>Coordinate marketing materials</span></div>
+      <div class="task"><input type="checkbox"><span>Confirm operational readiness</span></div>
+      <div class="task"><input type="checkbox"><span>Complete opening-day plan</span></div>
+      <p class="demo-note">This checklist is a visual demo. It does not save progress between visits.</p>
+    </div>
+  </section>
+
+  <section id="marketing" class="view">
+    <button class="back" onclick="showView('home')">← Back to portals</button>
+    <div class="eyebrow">Campaigns / 03</div>
+    <h1>Marketing</h1>
+    <p class="intro">An overview of example promotional activities.</p>
+    <div class="panel">
+      <table>
+        <thead><tr><th>Campaign</th><th>Channel</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Seasonal promotion</td><td>Social media</td><td><span class="tag">Example</span></td></tr>
+          <tr><td>Tenant spotlight</td><td>Website</td><td><span class="tag">Example</span></td></tr>
+          <tr><td>Family event</td><td>On-site</td><td><span class="tag">Example</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="reports" class="view">
+    <button class="back" onclick="showView('home')">← Back to portals</button>
+    <div class="eyebrow">Management / 04</div>
+    <h1>Reports</h1>
+    <p class="intro">A starting point for operational and marketing reporting.</p>
+    <div class="panel">
+      <h3>Report library</h3>
+      <p>Weekly operational report</p>
+      <p>Tenant activity summary</p>
+      <p>Marketing campaign summary</p>
+      <p class="demo-note">No reports are connected yet. We will add the real reporting workflow later.</p>
+    </div>
+  </section>
+</main>
+
+<footer>BIG KONSTANTYNÓW · CENTER PORTAL · PROTOTYPE</footer>
+
+<script>
+function showView(name) {
+  document.querySelectorAll('.view').forEach(function(view) {
+    view.classList.remove('active');
+  });
+  document.getElementById(name).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function filterTenants() {
+  var query = document.getElementById('tenantSearch').value.toLowerCase();
+  document.querySelectorAll('#tenantRows tr').forEach(function(row) {
+    row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
